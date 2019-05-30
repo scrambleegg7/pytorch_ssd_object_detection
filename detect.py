@@ -97,7 +97,11 @@ def detect(original_image, min_score, max_overlap, top_k, suppress=None):
 
 
 if __name__ == '__main__':
-    img_path = '/media/ssd/ssd data/VOC2007/JPEGImages/000001.jpg'
-    original_image = Image.open(img_path, mode='r')
+    
+    img_path = '/home/donchan/Documents/DATA/PASCAL_VOC/ImageData/Prescription/prescription-20190115-123553.jpg'
+
+    drug_path = '/home/donchan/Documents/DATA/PASCAL_VOC/ImageData/drugs/prescription-20190116-120611.jpg'
+
+    original_image = Image.open(drug_path, mode='r')
     original_image = original_image.convert('RGB')
     detect(original_image, min_score=0.2, max_overlap=0.5, top_k=200).show()

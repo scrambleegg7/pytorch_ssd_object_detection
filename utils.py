@@ -8,7 +8,7 @@ import torchvision.transforms.functional as FT
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Label map
-voc_labels = ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable',
+voc_labels = ('prescription', 'none', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable',
               'dog', 'horse', 'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor')
 label_map = {k: v + 1 for v, k in enumerate(voc_labels)}
 label_map['background'] = 0
@@ -33,6 +33,7 @@ def parse_annotation(annotation_path):
         difficult = int(object.find('difficult').text == '1')
 
         label = object.find('name').text.lower().strip()
+        print(label)
         if label not in label_map:
             continue
 
@@ -49,7 +50,7 @@ def parse_annotation(annotation_path):
     return {'boxes': boxes, 'labels': labels, 'difficulties': difficulties}
 
 
-def create_data_lists(voc07_path, voc12_path, output_folder):
+def create_data_lists(voc07_path, voc12_path=None, output_folder=None):
     """
     Create lists of images, the bounding boxes and labels of the objects in these images, and save these to file.
 
@@ -58,17 +59,17 @@ def create_data_lists(voc07_path, voc12_path, output_folder):
     :param output_folder: folder where the JSONs must be saved
     """
     voc07_path = os.path.abspath(voc07_path)
-    voc12_path = os.path.abspath(voc12_path)
+    #voc12_path = os.path.abspath(voc12_path)
 
     train_images = list()
     train_objects = list()
     n_objects = 0
 
     # Training data
-    for path in [voc07_path, voc12_path]:
+    for path in [voc07_path]:
 
         # Find IDs of images in training data
-        with open(os.path.join(path, 'ImageSets/Main/trainval.txt')) as f:
+        with open(os.path.join(path, 'ImageSets/Main/file.txt')) as f:
             ids = f.read().splitlines()
 
         for id in ids:
@@ -99,7 +100,7 @@ def create_data_lists(voc07_path, voc12_path, output_folder):
     n_objects = 0
 
     # Find IDs of images in validation data
-    with open(os.path.join(voc07_path, 'ImageSets/Main/test.txt')) as f:
+    with open(os.path.join(voc07_path, 'ImageSets/Main/file.txt')) as f:
         ids = f.read().splitlines()
 
     for id in ids:
