@@ -3,7 +3,7 @@ from utils import *
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np  
 
-import pyocr
+#import pyocr
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -24,7 +24,7 @@ normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
 
 
-tools = pyocr.get_available_tools()
+#tools = pyocr.get_available_tools()
 
 
 
@@ -40,9 +40,9 @@ def detect(original_image, min_score, max_overlap, top_k, suppress=None):
     :return: annotated image, a PIL Image
     """
 
-    tool = tools[0]
-    res = tool.image_to_string(original_image,lang="jpn",
-                           builder=pyocr.builders.WordBoxBuilder(tesseract_layout=6))    
+    #tool = tools[0]
+    #res = tool.image_to_string(original_image,lang="jpn",
+    #                       builder=pyocr.builders.WordBoxBuilder(tesseract_layout=6))    
     for d in res:
         print(d.content)
 

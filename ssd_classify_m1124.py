@@ -23,7 +23,16 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model checkpoint
 checkpoint = 'BEST_checkpoint_ssd300.pth.tar'
-checkpoint = torch.load(checkpoint)
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print("device", device)
+
+if torch.cuda.is_available():
+    checkpoint = torch.load(checkpoint)
+else:
+    checkpoint = torch.load(checkpoint,map_location="cpu")
+
+
 start_epoch = checkpoint['epoch'] + 1
 best_loss = checkpoint['best_loss']
 print('\nLoaded checkpoint from epoch %d. Best loss so far is %.3f.\n' % (start_epoch, best_loss))
@@ -197,10 +206,10 @@ def videopipeline():
         #imshow("frameDelta", frameDelta)
         #imshow("thresh", thresh)
         new_frame = np.array( new_frame )
-        imshow("marked", new_frame)
+        #imshow("marked", new_frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break     
+        #if cv2.waitKey(1) & 0xFF == ord('q'):
+        #    break     
 
 
 
